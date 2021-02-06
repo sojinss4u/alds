@@ -38,3 +38,4 @@ if __name__ == "__main__":
         if status:
             reverse_string = reverse_string + status
     logger.info("Output String: {}".format(reverse_string))
+
