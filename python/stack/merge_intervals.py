@@ -44,7 +44,7 @@ class Stack:
 
 if __name__ == "__main__":
     p1 = [[4,9],[1,3],[2,5],[3,4],[1,7],[5,15]]
-    print("Input: {}".format(p1))
+    logger.info("Input: {}".format(p1))
     """
     Sort intervals according to starting time. Now we can combine overlapping intervals in a linear traversal.
     In sorted array of intervals, if interval[i] doesn't overlap with interval[i-1], then interval[i+1] cannot overlap with
@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     p1.sort(key=lambda item: item[0])
 
-    print("Sorted: {}".format(p1))
+    logger.info("Sorted: {}".format(p1))
 
     s1 = Stack()
     s1.push(p1[0])
@@ -72,5 +72,5 @@ if __name__ == "__main__":
         else:
             s1.push(current_item)
     merged_intervals = s1.print_stack()
-    print("Merged_Output: {}".format(merged_intervals))
+    logger.info("Merged_Output: {}".format(merged_intervals))
 
