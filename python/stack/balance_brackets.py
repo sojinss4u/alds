@@ -12,8 +12,8 @@ Also brackets can't overlap each other as in [(])
 
 Algo:
 
-1. We will push only the opening brackets to stack
-2. Whenever we see a closing bracket, we will check if the top of the stack matches with closing bracket of the current item
+1. We will push all the opening brackets to stack
+2. Whenever we see a closing bracket, we will check if the top of the stack matches with opening bracket of the current item. If there is a match, we will pop off the top of the stack & proceed. Else brackets are not balanced.
 3. If we see a closing bracket & the stack is empty then the string is imbalanced
 4. Once all the brackets in the string is completed & we still have elements left in the stack, then the brackets are imbalanced
 """
