@@ -4,12 +4,16 @@ logging.basicConfig(level=logging.INFO,stream=sys.stdout,format="%(message)s")
 logger = logging.getLogger()
 
 """
-Q: Write a function that takes in a string made up of brackets Eg: (,[,{,),],}. The function should return a boolean representing wether the string is balanced with regards to brackets. A string is said to be balanced if it has as many opening brackets of certain type as it has closing brackets of that type and if no bracket is unmatched. Please note that an opening bracket can't match a closing bracket which comes before it & similarly a closing bracket can't match an opening bracket which comes after it. Also brackets can't overlap each other as in [(])
+Q: Write a function that takes in a string made up of brackets Eg: (,[,{,),],}. 
+The function should return a boolean representing wether the string is balanced with regards to brackets. 
+A string is said to be balanced if it has as many opening brackets of certain type as it has closing brackets of that type and if no bracket is unmatched. 
+Please note that an opening bracket can't match a closing bracket which comes before it & similarly a closing bracket can't match an opening bracket which comes after it. 
+Also brackets can't overlap each other as in [(])
 
 Algo:
 
-1. We will push only the opening brackets to stack
-2. Whenever we see a closing bracket, we will check if the top of the stack matches with closing bracket of the current item
+1. We will push all the opening brackets to stack
+2. Whenever we see a closing bracket, we will check if the top of the stack matches with opening bracket of the current item. If there is a match, we will pop off the top of the stack & proceed. Else brackets are not balanced.
 3. If we see a closing bracket & the stack is empty then the string is imbalanced
 4. Once all the brackets in the string is completed & we still have elements left in the stack, then the brackets are imbalanced
 """
