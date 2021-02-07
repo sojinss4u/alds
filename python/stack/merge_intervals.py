@@ -51,16 +51,9 @@ if __name__ == "__main__":
     interval[i-1].       
     """
 
-    # Sort intervals based on start time [Optimized BubbleSort]
+    # Sort intervals based on start time. 
 
-    for i in range(len(p1)-1):
-        sorted = 0
-        for j in range(len(p1)-1-i):
-          if p1[j][0] > p1[j+1][0]:
-            p1[j],p1[j+1] = p1[j+1],p1[j]
-            sorted = 1
-        if sorted == 0:
-            break
+    p1.sort(key=lambda item: item[0])
 
     print("Sorted: {}".format(p1))
 
