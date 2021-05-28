@@ -10,8 +10,8 @@ such that they add up to target
 
 def two_sum(nums,target):
     """
-    Time Complexity : O(n)
-    Space Complexity : O(n)
+    Time Complexity : O(n)  # Because of single loop
+    Space Complexity : O(n) # Because of using hashmap
 
     nums = [1,2,4,7,9]
     target = 16
