@@ -52,7 +52,7 @@ class Stack:
         if self.length() > 0:
             return self.list[-1]
         else:
-            return -1
+            return None
 
     def length(self):
         return len(self.list)
@@ -71,7 +71,7 @@ def find_next_greatest(ar):
             result.append(s_top)
             s.push(item)
         else:
-            while s_top < item and s_top != -1:
+            while s_top < item and s_top != None:
                 s.pop()
                 s_top = s.top()
             if s_length == 0:
