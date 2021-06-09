@@ -27,6 +27,8 @@ Explanation:
     Space Complexity: O(n), due to storing result in result array
 
   2.  Optimized solution using stack
+      Time Complexity: O(n)
+      Space Complexity: O(n)
       As you can in the above brute force approach, 'j' is dependent on 'i'. Whenever 'j' is dependent on 'i', we can reduce the time complexity of the problem from O(n^2) to O(n) using a stack.
       In order to implement this solution using stack, we will have to start the first loop traversal from right to left. We will take each element in the array from right to left & then check 
       1. If s.top() > ar[i]
