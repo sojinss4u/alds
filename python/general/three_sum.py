@@ -9,7 +9,7 @@ def three_sum(nums,target):
     # Time Complexity O(n^2)
     # Space Complexity O(n)
     # nums = [1,2,3,4]
-    # target = 9
+    # target = 12
     for index1 in range(len(nums)):
         diff1 = target - nums[index1]
         elm_index_map = {}
@@ -22,6 +22,6 @@ def three_sum(nums,target):
 
 if __name__ == "__main__":
     nums = [1,2,3,4,5]
-    target = 11
+    target = 12
     result = three_sum(nums,target)
     logger.info(result)
