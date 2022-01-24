@@ -13,7 +13,7 @@ def three_sum(nums,target):
     for index1 in range(len(nums)):
         diff1 = target - nums[index1]
         elm_index_map = {}
-        for index2 in range(index1,len(nums)):
+        for index2 in range(index1+1,len(nums)):
           diff2 = diff1 - nums[index2]
           if diff2 in elm_index_map:
               return [index1,elm_index_map[diff2],index2]
