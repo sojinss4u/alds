@@ -112,6 +112,8 @@ func (l *linkedList) insertAt(position int, data string) {
 func (l *linkedList) deleteHead() {
 	if l.head == nil {
 		fmt.Println("List is empty")
+	} else if l.head.next == nil {
+		l.head = nil
 	} else {
 		currentHead := l.head
 		l.head = currentHead.next
@@ -136,6 +138,24 @@ func (l *linkedList) deleteTail() {
 	}
 }
 
+// deleteAt() method
+
+func (l *linkedList) deleteAt(position int) {
+	if l.head == nil {
+		fmt.Println("List is empty")
+	} else if position == 1 {
+		l.deleteHead()
+	} else {
+		currentNode := l.head
+		count := 1
+		for count < position {
+			currentNode = currentNode.next
+		}
+		currentNode.previous.next = currentNode.next
+		currentNode.next.previous = currentNode.previous
+	}
+}
+
 func main() {
 	l := linkedList{}
 	l.appendNode("Soji")
@@ -155,6 +175,8 @@ func main() {
 	l.deleteTail()
 	l.printList()
 	l.deleteTail()
+	l.printList()
+	l.deleteAt(1)
 	l.printList()
 }
 
