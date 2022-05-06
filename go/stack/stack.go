@@ -56,6 +56,18 @@ func (s *Stack) Print() {
 	infoLogger.Print(*s)
 }
 
+// Method to return top of the stack
+
+func (s *Stack) Top() interface{} {
+	if s.IsEmpty() == true {
+		infoLogger.Print("Stack is empty. Can't return top of the stack")
+		return nil
+	} else {
+		topIndex := len(*s) - 1
+		return (*s)[topIndex]
+	}
+}
+
 func main() {
 	s := &Stack{}
 	r := s.IsEmpty()
@@ -71,4 +83,9 @@ func main() {
 	s.Pop()
 	s.Print()
 	s.Pop()
+	s.Top()
+	s.Push("Raeyan")
+	s.Push("Seira")
+	top := s.Top()
+	infoLogger.Print(top)
 }
