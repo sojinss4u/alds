@@ -68,6 +68,15 @@ func (s *Stack) Top() interface{} {
 	}
 }
 
+// Reset stack to empty stack
+func (s *Stack) Reset() {
+	*s = nil
+}
+
+func (s *Stack) Length() int {
+	return len(*s)
+}
+
 func main() {
 	s := &Stack{}
 	r := s.IsEmpty()
@@ -88,4 +97,6 @@ func main() {
 	s.Push("Seira")
 	top := s.Top()
 	infoLogger.Print(top)
+	s.Reset()
+	s.Print()
 }
