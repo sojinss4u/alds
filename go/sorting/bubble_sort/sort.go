@@ -20,7 +20,7 @@ func init() {
 func BubbleSort(ar []int) []int {
 	l := len(ar)
 	for i := 0; i < l-1; i++ {
-		for j := 0; j < l-1; j++ {
+		for j := 0; j < (l - 1 - i); j++ {
 			if ar[j] > ar[j+1] {
 				ar[j], ar[j+1] = ar[j+1], ar[j]
 			}
