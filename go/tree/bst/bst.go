@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"os"
 )
@@ -68,44 +69,44 @@ func (t *Tree) InsertNode(node *Node, data int) *Node {
 
 // InOrderTraversal() Method
 
-func (t *Tree) InOrderTraversal(root *Node) {
+func (t *Tree) InOrderTraversal(w io.Writer, root *Node) {
 	if root != nil {
-		t.InOrderTraversal(root.left)
-		fmt.Print(root.data)
-		t.InOrderTraversal(root.right)
+		t.InOrderTraversal(w, root.left)
+		fmt.Fprint(w, root.data)
+		t.InOrderTraversal(w, root.right)
 	}
 }
 
 // PreOrderTraversal() Method
 
-func (t *Tree) PreOrderTraversal(root *Node) {
+func (t *Tree) PreOrderTraversal(w io.Writer, root *Node) {
 	if root != nil {
-		fmt.Print(root.data)
-		t.PreOrderTraversal(root.left)
-		t.PreOrderTraversal(root.right)
+		fmt.Fprint(w, root.data)
+		t.PreOrderTraversal(w, root.left)
+		t.PreOrderTraversal(w, root.right)
 	}
 }
 
 // PostOrderTraveral() Method
 
-func (t *Tree) PostOrderTraversal(root *Node) {
+func (t *Tree) PostOrderTraversal(w io.Writer, root *Node) {
 	if root != nil {
-		t.PostOrderTraversal(root.left)
-		t.PostOrderTraversal(root.right)
-		fmt.Print(root.data)
+		t.PostOrderTraversal(w, root.left)
+		t.PostOrderTraversal(w, root.right)
+		fmt.Fprint(w, root.data)
 	}
 }
 
 // PrintInOrder() Method
 
-func (t *Tree) Print(method string) {
+func (t *Tree) Print(method string, w io.Writer) {
 	switch method {
 	case "io":
-		t.InOrderTraversal(t.root)
+		t.InOrderTraversal(w, t.root)
 	case "pro":
-		t.PreOrderTraversal(t.root)
+		t.PreOrderTraversal(w, t.root)
 	case "poo":
-		t.PostOrderTraversal(t.root)
+		t.PostOrderTraversal(w, t.root)
 	default:
 		fmt.Print("Unknown Print Method")
 	}
@@ -113,14 +114,18 @@ func (t *Tree) Print(method string) {
 
 func main() {
 	t := Tree{}
-	t.Insert(5)
+	/*t.Insert(5)
 	t.Insert(3)
 	t.Insert(7)
-	t.Insert(1)
-	t.Print("io")
+	t.Insert(1)*/
+	n := []int{5, 3, 7, 1}
+	for _, val := range n {
+		t.Insert(val)
+	}
+	t.Print("io", os.Stdout)
 	fmt.Print("\n")
-	t.Print("pro")
+	t.Print("pro", os.Stdout)
 	fmt.Print("\n")
-	t.Print("poo")
+	t.Print("poo", os.Stdout)
 }
 
