@@ -62,3 +62,16 @@ func TestPostOrderTraversal(t *testing.T) {
 	})
 }
 
+func TestCount(t *testing.T) {
+	tr := Tree{}
+	i := []int{5, 3, 7, 1}
+	for _, val := range i {
+		tr.Insert(val)
+	}
+	t.Run("TestCountSuccess", func(t *testing.T) {
+		expect := 4
+		if got := tr.Count(tr.root); got != expect {
+			t.Errorf("Expected %d, Got %d", expect, got)
+		}
+	})
+}

@@ -112,6 +112,16 @@ func (t *Tree) Print(method string, w io.Writer) {
 	}
 }
 
+// Count Method return count of nodes
+
+func (t *Tree) Count(node *Node) int {
+	// Count Of Nodes Of A Tree = Count(root.left) + 1 + Count(root.right)
+	if node != nil {
+		return t.Count(node.left) + 1 + t.Count(node.right)
+	}
+	return 0
+}
+
 func main() {
 	t := Tree{}
 	/*t.Insert(5)
@@ -127,5 +137,8 @@ func main() {
 	t.Print("pro", os.Stdout)
 	fmt.Print("\n")
 	t.Print("poo", os.Stdout)
+        fmt.Println()
+	c := t.Count(t.root)
+	fmt.Println(c)
 }
 
