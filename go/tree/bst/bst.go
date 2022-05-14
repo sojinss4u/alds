@@ -165,6 +165,24 @@ func (t *Tree) Search(k int, node *Node) bool {
 	return false
 }
 
+// Find path to 'k', same function as before, but print the nodes which return true
+
+func (t *Tree) FindPath(w io.Writer, node *Node, k int) bool {
+	if node != nil {
+		if node.data == k {
+			fmt.Fprintf(w, "%d", node.data)
+			return true
+		} else if r := t.FindPath(w, node.left, k); r {
+			fmt.Fprintf(w, "%d", node.data)
+			return true
+		} else if r := t.FindPath(w, node.right, k); r {
+			fmt.Fprintf(w, "%d", node.data)
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	t := Tree{}
 	/*t.Insert(5)
@@ -190,5 +208,7 @@ func main() {
         fmt.Println()
         r := t.Search(4, t.root)
 	fmt.Println(r)
+        fmt.Println()
+        t.FindPath(os.Stdout, t.root, 2)
 }
 

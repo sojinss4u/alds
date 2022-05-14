@@ -125,3 +125,18 @@ func TestSearch(t *testing.T) {
 	})
 }
 
+func TestFindPath(t *testing.T) {
+	tr := Tree{}
+	i := []int{5, 3, 7, 1, 2, 6, 8}
+	for _, val := range i {
+		tr.Insert(val)
+	}
+	t.Run("TestFindPathSuccess", func(t *testing.T) {
+		expect := "2135"
+		var b bytes.Buffer
+		if tr.FindPath(&b, tr.root, 2); b.String() != expect {
+			t.Errorf("Expect %s, Got %s", expect, b.String())
+		}
+	})
+}
+
