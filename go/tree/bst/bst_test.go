@@ -89,3 +89,18 @@ func TestHeight(t *testing.T) {
 		}
 	})
 }
+
+func TestLevelOrderTraversal(t *testing.T) {
+	tr := Tree{}
+	i := []int{5, 3, 7, 1}
+	for _, val := range i {
+		tr.Insert(val)
+	}
+	t.Run("TestLevelOrderTraversalSuccess", func(t *testing.T) {
+		expect := "5371"
+		var b bytes.Buffer
+		if tr.LevelOrderTraversal(&b); b.String() != expect {
+
+		}
+	})
+}

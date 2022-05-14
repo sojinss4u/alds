@@ -113,6 +113,24 @@ func (t *Tree) Print(method string, w io.Writer) {
 	}
 }
 
+// LevelOrderTraversal method
+
+func (t *Tree) LevelOrderTraversal(w io.Writer) {
+	var s []*Node
+	s = append(s, t.root)
+	for len(s) > 0 {
+		root := s[0]
+		s = s[1:]
+		fmt.Fprintf(w, "%d", root.data)
+		if root.left != nil {
+			s = append(s, root.left)
+		}
+		if root.right != nil {
+			s = append(s, root.right)
+		}
+	}
+}
+
 // Count Method return count of nodes
 
 func (t *Tree) Count(node *Node) int {
@@ -153,5 +171,6 @@ func main() {
         fmt.Println()
 	h := t.Height(t.root)
 	fmt.Println(h)
+	t.LevelOrderTraversal(os.Stdout)
 }
 
