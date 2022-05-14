@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"os"
+        "math"
 )
 
 var (
@@ -122,6 +123,15 @@ func (t *Tree) Count(node *Node) int {
 	return 0
 }
 
+// Height method returns height of the node, which is the max distance from root to it's leaf nodes
+
+func (t *Tree) Height(node *Node) float64 {
+	if node == nil {
+		return -1
+	}
+	return math.Max(t.Height(node.left), t.Height(node.right)) + 1
+}
+
 func main() {
 	t := Tree{}
 	/*t.Insert(5)
@@ -140,5 +150,8 @@ func main() {
         fmt.Println()
 	c := t.Count(t.root)
 	fmt.Println(c)
+        fmt.Println()
+	h := t.Height(t.root)
+	fmt.Println(h)
 }
 

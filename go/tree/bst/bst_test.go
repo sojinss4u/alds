@@ -75,3 +75,17 @@ func TestCount(t *testing.T) {
 		}
 	})
 }
+
+func TestHeight(t *testing.T) {
+	tr := Tree{}
+	i := []int{5, 3, 7, 1}
+	for _, val := range i {
+		tr.Insert(val)
+	}
+	t.Run("TestHeightSuccess", func(t *testing.T) {
+		expect := 2.0
+		if got := tr.Height(tr.root); got != expect {
+			t.Errorf("Expected %f, Got %f", expect, got)
+		}
+	})
+}
