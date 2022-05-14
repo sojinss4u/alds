@@ -150,6 +150,21 @@ func (t *Tree) Height(node *Node) float64 {
 	return math.Max(t.Height(node.left), t.Height(node.right)) + 1
 }
 
+// Search k in Tree
+
+func (t *Tree) Search(k int, node *Node) bool {
+	if node != nil {
+		if node.data == k {
+			return true
+		} else if r := t.Search(k, node.left); r {
+			return true
+		} else if r := t.Search(k, node.right); r {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	t := Tree{}
 	/*t.Insert(5)
@@ -172,5 +187,8 @@ func main() {
 	h := t.Height(t.root)
 	fmt.Println(h)
 	t.LevelOrderTraversal(os.Stdout)
+        fmt.Println()
+        r := t.Search(4, t.root)
+	fmt.Println(r)
 }
 

@@ -104,3 +104,24 @@ func TestLevelOrderTraversal(t *testing.T) {
 		}
 	})
 }
+
+func TestSearch(t *testing.T) {
+	tr := Tree{}
+	i := []int{5, 3, 7, 1, 2, 6, 8}
+	for _, val := range i {
+		tr.Insert(val)
+	}
+	t.Run("TestSearchTrue", func(t *testing.T) {
+		expect := true
+		if got := tr.Search(2, tr.root); got != expect {
+			t.Errorf("Expected %t, Got %t", expect, got)
+		}
+	})
+	t.Run("TestSearchFalse", func(t *testing.T) {
+		expect := false
+		if got := tr.Search(9, tr.root); got != expect {
+			t.Errorf("Expected %t, Got %t", expect, got)
+		}
+	})
+}
+
