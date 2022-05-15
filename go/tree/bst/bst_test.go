@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"testing"
+	"fmt"
 )
 
 func TestCreateNode(t *testing.T) {
