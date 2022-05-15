@@ -153,6 +153,44 @@ func (t *Tree) LeftView(w io.Writer) {
 	}
 }
 
+// RightView() method
+
+func (t Tree) RightView(w io.Writer) {
+	//		    5
+	// 		 3     7           <==== View
+	//	   1    6     8
+	// 	 0   2          9
+	// RightView: 5789
+	// Ans: LevelOrderTraversalRightToLeft + Hash[level][node]
+	var q []*Node
+	h := make(map[int]*Node)
+	q = append(q, t.root)
+	for len(q) != 0 {
+		root := q[0]
+		q = q[1:]
+		if _, ok := h[root.level]; !ok {
+			h[root.level] = root
+		}
+		if root.right != nil {
+			root.right.level = root.level + 1
+			q = append(q, root.right)
+		}
+		if root.left != nil {
+			root.left.level = root.level + 1
+			q = append(q, root.left)
+		}
+	}
+	// Add the hash keys to a slice to sort them in order [has is an unordered list]
+	var s []int
+	for k, _ := range h {
+		s = append(s, k)
+	}
+	sort.Ints(s)
+	for _, val := range s {
+		fmt.Fprintf(w, "%d", h[val].data)
+	}
+}
+
 func main() {
 	t := Tree{}
 	i := []int{5, 3, 7, 1, 2, 6, 8}
@@ -168,5 +206,7 @@ func main() {
 	t.TopView(os.Stdout)
         fmt.Println()
 	t.LeftView(os.Stdout)
+        fmt.Println()
+        t.RightView(os.Stdout)
 }
 
