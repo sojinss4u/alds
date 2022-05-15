@@ -131,6 +131,42 @@ func (t *Tree) LevelOrderTraversal(w io.Writer) {
 	}
 }
 
+// LevelOrderTraversalWithNewLine()
+
+func (t *Tree) LevelOrderTraversalWithNewLine(w io.Writer) {
+	// 		5
+	//	  3    7
+	// 1
+	// q = [5,nil,]
+	// q = [nil,3,7]
+	// q = [3,7,nil]
+	// q = [7,nil,1]
+	// q = [nil,1]
+	// q = [1,nil]
+	// q = [nil]
+	var q []*Node
+	q = append(q, t.root)
+	q = append(q, nil)
+        // > 1 is used, to avoid infinite loop at the end of the queue due to repated null getting appended
+	for len(q) > 1 {
+		root := q[0]
+		q = q[1:]
+		if root == nil {
+			fmt.Fprintf(w, "\n")
+			q = append(q, nil)
+		} else {
+			fmt.Fprintf(w, "%d", root.data)
+			if root.left != nil {
+				q = append(q, root.left)
+			}
+			if root.right != nil {
+				q = append(q, root.right)
+			}
+		}
+
+	}
+}
+
 // Count Method return count of nodes
 
 func (t *Tree) Count(node *Node) int {
@@ -205,6 +241,8 @@ func main() {
 	h := t.Height(t.root)
 	fmt.Println(h)
 	t.LevelOrderTraversal(os.Stdout)
+        fmt.Println()
+	t.LevelOrderTraversalWithNewLine(os.Stdout)
         fmt.Println()
         r := t.Search(4, t.root)
 	fmt.Println(r)

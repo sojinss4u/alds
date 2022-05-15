@@ -140,3 +140,19 @@ func TestFindPath(t *testing.T) {
 	})
 }
 
+func TestLevelOrderTraversalWithNewLine(t *testing.T) {
+	tr := Tree{}
+	i := []int{5, 3, 7, 1, 8}
+	for _, val := range i {
+		tr.Insert(val)
+	}
+	t.Run("TestLevelOrderTraversalWithNewLineSuccess", func(t *testing.T) {
+		var b bytes.Buffer
+		expect := fmt.Sprintf("5\n37\n18")
+		if tr.LevelOrderTraversalWithNewLine(&b); b.String() != expect {
+			t.Errorf("Expected %s, Got %s", expect, b.String())
+		}
+	})
+
+}
+
