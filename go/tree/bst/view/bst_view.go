@@ -111,14 +111,62 @@ func (t *Tree) TopView(w io.Writer) {
 	}
 }
 
+// LeftView() method for the tree
+
+func (t *Tree) LeftView(w io.Writer) {
+	//     		5       	 level = 0
+	//  	 3  	 7		 level = 1
+	//	 1       		8    level = 2
+	// 0   2         6     9
+	// i := [537180269]
+	// op := 5310
+	var q []*Node
+	h := make(map[int]int)
+	q = append(q, t.root)
+	for len(q) != 0 {
+		root := q[0]
+		q = q[1:]
+		if _, ok := h[root.level]; !ok {
+			h[root.level] = root.data
+		}
+		if root.left != nil {
+			root.left.level = root.level + 1
+			q = append(q, root.left)
+		}
+		if root.right != nil {
+			root.right.level = root.level + 1
+			q = append(q, root.right)
+		}
+	}
+	// Since map is an unordered collection of key value pairs, we can't gurantee the order in which the map elements will be printed.
+	// Hence we need to append the hash keys into a slice, then sort it & iterate trough it to print the values of hash in a predicted order
+	// https://yourbasic.org/golang/sort-map-keys-values/
+
+	var k []int
+	for keys, _ := range h {
+		k = append(k, keys)
+	}
+	// Sort slice values in increasing order
+	sort.Ints(k)
+	for _, val := range k {
+		fmt.Fprintf(w,"%d", h[val])
+	}
+}
+
 func main() {
 	t := Tree{}
 	i := []int{5, 3, 7, 1, 2, 6, 8}
+        //           5
+        //        3     7
+        //     1     6    8
+	//        2
 	for _, val := range i {
 		t.Insert(val)
 	}
 	t.InOrderTraversal(os.Stdout, t.root)
 	fmt.Println()
 	t.TopView(os.Stdout)
+        fmt.Println()
+	t.LeftView(os.Stdout)
 }
 
