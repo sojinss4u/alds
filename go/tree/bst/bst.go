@@ -115,7 +115,7 @@ func (t *Tree) Print(method string, w io.Writer) {
 
 // LevelOrderTraversal method
 
-func (t *Tree) LevelOrderTraversal(w io.Writer) {
+func (t *Tree) LevelOrderTraversalLeftToRight(w io.Writer) {
 	var s []*Node
 	s = append(s, t.root)
 	for len(s) > 0 {
@@ -261,7 +261,7 @@ func main() {
         fmt.Println()
 	h := t.Height(t.root)
 	fmt.Println(h)
-	t.LevelOrderTraversal(os.Stdout)
+        t.LevelOrderTraversalLeftToRight(os.Stdout)
         fmt.Println()
 	t.LevelOrderTraversalWithNewLine(os.Stdout)
         fmt.Println()
