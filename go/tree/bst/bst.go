@@ -131,6 +131,24 @@ func (t *Tree) LevelOrderTraversal(w io.Writer) {
 	}
 }
 
+// LevelOrderTraversalRightToLeft to print elements in each level right to left
+
+func (t *Tree) LevelOrderTraversalRightToLeft(w io.Writer) {
+	var q []*Node
+	q = append(q, t.root)
+	for len(q) > 0 {
+		root := q[0]
+		q = q[1:]
+		fmt.Fprintf(w, "%d", root.data)
+		if root.right != nil {
+			q = append(q, root.right)
+		}
+		if root.left != nil {
+			q = append(q, root.left)
+		}
+	}
+}
+
 // LevelOrderTraversalWithNewLine()
 
 func (t *Tree) LevelOrderTraversalWithNewLine(w io.Writer) {
@@ -226,6 +244,9 @@ func main() {
 	t.Insert(7)
 	t.Insert(1)*/
 	n := []int{5, 3, 7, 1}
+        //     5
+        //   3   7
+        // 1
 	for _, val := range n {
 		t.Insert(val)
 	}
@@ -248,5 +269,7 @@ func main() {
 	fmt.Println(r)
         fmt.Println()
         t.FindPath(os.Stdout, t.root, 2)
+        fmt.Println()
+	t.LevelOrderTraversalRightToLeft(os.Stdout)
 }
 
