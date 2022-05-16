@@ -228,6 +228,51 @@ func (t *Tree) VerticalLevelOrderTraversalLeftToRight(w io.Writer) {
 	}
 }
 
+// BottomView() method for a tree
+// Bottom view = Print Last node in each list in VerticalLevelOrderTraversalLeftToRight
+//     5
+//   3   7
+// 1   2   8
+// Bottom View = 1 3 2 7 8
+// HashMap in VerticalLevelOrderTraversalFromLeftToRight
+// ie h := {
+//	-2 : [1],
+//  -1 : [3],
+//   0 : [5,2],
+//   1 : [7],
+//   2 : [8]
+//			}
+// Answer is last element in each level
+
+func (t Tree) BottomView(w io.Writer) {
+	var q []*Node
+	h := make(map[int][]*Node)
+	q = append(q, t.root)
+	for len(q) > 0 {
+		root := q[0]
+		q = q[1:]
+		h[root.level] = append(h[root.level], root)
+		if root.left != nil {
+			root.left.level = root.level - 1
+			q = append(q, root.left)
+		}
+		if root.right != nil {
+			root.right.level = root.level + 1
+			q = append(q, root.right)
+		}
+	}
+	var s []int
+	for k, _ := range h {
+		s = append(s, k)
+	}
+	sort.Ints(s)
+	for _, val := range s {
+		lastElement := h[val][len(h[val])-1].data
+		fmt.Fprintf(w, "%d", lastElement)
+	}
+}
+
+
 func main() {
 	t := Tree{}
 	i := []int{5, 3, 7, 1, 2, 6, 8}
@@ -247,5 +292,7 @@ func main() {
         t.RightView(os.Stdout)
         fmt.Println()
      	t.VerticalLevelOrderTraversalLeftToRight(os.Stdout)
+        fmt.Println()
+	t.BottomView(os.Stdout)
 }
 
