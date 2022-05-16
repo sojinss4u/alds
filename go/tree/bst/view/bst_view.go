@@ -191,6 +191,43 @@ func (t Tree) RightView(w io.Writer) {
 	}
 }
 
+// VerticalLevelOrderTraversalLeftToRight() Method
+//     5
+//   3   7
+// 1   2   8
+// Expected Result: 135278
+// Idea is, similar to top view approach, calculate level for each node & push all of them having same level to a stack.
+// Finally sort them in ascending order & print it
+
+func (t *Tree) VerticalLevelOrderTraversalLeftToRight(w io.Writer) {
+	var q []*Node
+	h := make(map[int][]*Node)
+	q = append(q, t.root)
+	for len(q) > 0 {
+		root := q[0]
+		q = q[1:]
+		h[root.level] = append(h[root.level], root)
+		if root.left != nil {
+			root.left.level = root.level - 1
+			q = append(q, root.left)
+		}
+		if root.right != nil {
+			root.right.level = root.level + 1
+			q = append(q, root.right)
+		}
+	}
+	var s []int
+	for k, _ := range h {
+		s = append(s, k)
+	}
+	sort.Ints(s)
+	for _, val := range s {
+		for _, val1 := range h[val] {
+			fmt.Fprintf(w, "%d", val1.data)
+		}
+	}
+}
+
 func main() {
 	t := Tree{}
 	i := []int{5, 3, 7, 1, 2, 6, 8}
@@ -208,5 +245,7 @@ func main() {
 	t.LeftView(os.Stdout)
         fmt.Println()
         t.RightView(os.Stdout)
+        fmt.Println()
+     	t.VerticalLevelOrderTraversalLeftToRight(os.Stdout)
 }
 
