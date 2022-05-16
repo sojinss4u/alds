@@ -96,3 +96,23 @@ func TestBottomView(t *testing.T) {
 		}
 	})
 }
+
+func TestDiagonalView(t *testing.T) {
+	tr := Tree{}
+	i := []int{5, 3, 7, 1, 8, 0, 2, 6, 9}
+	//     		5       	   level = 0
+	//  	3  	    7		   level = 1
+	//	 1      6	   8       level = 2
+	// 0     2             9   level = 3
+	for _, val := range i {
+		tr.Insert(val)
+	}
+	t.Run("TestDiagonalViewSuccess", func(t *testing.T) {
+		var b bytes.Buffer
+		expect := "531076289"
+		if tr.DiagonalView(&b); b.String() != expect {
+			t.Errorf("Expect %s, Got %s", expect, b.String())
+		}
+	})
+}
+

@@ -272,6 +272,50 @@ func (t Tree) BottomView(w io.Writer) {
 	}
 }
 
+// DiagonalView() Method
+//			/
+//		  /
+//     5/[0]
+//   3/[0] 7/[1]
+// 1/[0]  2/[1]  8/[2]
+// DiagonalView = 531 72 8
+// In Diagonal view we do the level order traversal from left to right again. Only difference is that when we go to left from a node, level doesn't change.
+// When we go to right from a node, we will add 1 to current level
+
+//       5
+//     3   7
+//   1   6    8
+// 0   2         9
+
+func (t *Tree) DiagonalView(w io.Writer) {
+	var q []*Node
+	h := make(map[int][]*Node)
+	q = append(q, t.root)
+	for len(q) > 0 {
+		root := q[0]
+		q = q[1:]
+		h[root.level] = append(h[root.level], root)
+		if root.left != nil {
+			root.left.level = root.level
+			q = append(q, root.left)
+		}
+		if root.right != nil {
+			root.right.level = root.level + 1
+			q = append(q, root.right)
+		}
+	}
+	var s []int
+	for k, _ := range h {
+		s = append(s, k)
+	}
+	sort.Ints(s)
+	for _, val := range s {
+		for _, obj := range h[val] {
+			fmt.Fprintf(w, "%d", obj.data)
+		}
+	}
+}
+
 
 func main() {
 	t := Tree{}
@@ -294,5 +338,17 @@ func main() {
      	t.VerticalLevelOrderTraversalLeftToRight(os.Stdout)
         fmt.Println()
 	t.BottomView(os.Stdout)
+        fmt.Println()
+        // Restting tree as we have previously stored level values in Node
+	t = Tree{}
+	i = []int{5, 3, 7, 1, 8, 0, 2, 6, 9}
+        //       5
+	//     3   7
+	//   1   6    8
+	// 0   2         9
+	for _, val := range i {
+		t.Insert(val)
+	}
+	t.DiagonalView(os.Stdout)
 }
 
