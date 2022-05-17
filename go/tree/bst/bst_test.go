@@ -176,3 +176,19 @@ func TestLevelOrderTraversalRightToLeft(t *testing.T) {
 	})
 }
 
+func TestLCA(t *testing.T) {
+	tr := Tree{}
+	i := []int{5, 3, 7, 1, 8, 0, 2, 6, 9}
+	//     		 5
+	//  	 3  	 7
+	//	  1      6	     8
+	// 0     2                 9
+	for _, val := range i {
+		tr.Insert(val)
+	}
+	var b bytes.Buffer
+	expect := "1"
+	if tr.LCA(&b, 0, 2); b.String() != expect {
+		t.Errorf("Expected %s, Got %s", expect, b.String())
+	}
+}

@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
         "math"
+        "bytes"
 )
 
 var (
@@ -237,6 +238,47 @@ func (t *Tree) FindPath(w io.Writer, node *Node, k int) bool {
 	return false
 }
 
+// LCA() Method
+
+func (t *Tree) LCA(w io.Writer, a, b int) {
+	// LCA => Least Common Ancestor
+	// To find LCA, Find the path between root to each node & find the node which is commeon for both of them & close to the nodes.
+	//     5
+	//   3   7
+	// 1   2   9
+	// Path(1) = [5,3,1]
+	// Path(2) = [5,3,2]
+	// LCA(1,2) = 3
+
+	var s1 []string
+	var s2 []string
+	var b1 bytes.Buffer
+	var b2 bytes.Buffer
+	t.FindPath(&b1, t.root, a)
+	t.FindPath(&b2, t.root, b)
+	for i := len(b1.String()) - 1; i >= 0; i -= 1 {
+		s1 = append(s1, string(b1.String()[i]))
+	}
+	for i := len(b2.String()) - 1; i >= 0; i -= 1 {
+		s2 = append(s2, string(b2.String()[i]))
+	}
+	var lca string
+	var minLength int
+	s1Length := len(s1)
+	s2Length := len(s2)
+	if s1Length < s2Length {
+		minLength = s1Length
+	} else {
+		minLength = s2Length
+	}
+	for i := 0; i < minLength; i += 1 {
+		if s1[i] == s2[i] {
+			lca = s1[i]
+		}
+	}
+	fmt.Fprintf(w, "%s", lca)
+}
+
 func main() {
 	t := Tree{}
 	/*t.Insert(5)
@@ -271,5 +313,7 @@ func main() {
         t.FindPath(os.Stdout, t.root, 2)
         fmt.Println()
 	t.LevelOrderTraversalRightToLeft(os.Stdout)
+        fmt.Println()
+        t.LCA(os.Stdout, 3, 7)
 }
 
