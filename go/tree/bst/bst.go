@@ -279,6 +279,54 @@ func (t *Tree) LCA(w io.Writer, a, b int) {
 	fmt.Fprintf(w, "%s", lca)
 }
 
+// PathBetween() method
+
+func (t *Tree) PathBetween(w io.Writer, a, b int) {
+	// In order to find the path between 'a' & 'b', we will find the path between root & each nodes.
+	// Then we will, find the path from each node to LCA. Then we will combine, the paths to get the
+	// path between a & b.
+	//     		5       	   level = 0
+	//  	3  	    7		   level = 1
+	//	 1      6	   8       level = 2
+	// 0     2             9   level = 3
+	// PathFromRootNode(0) = [5,3,1,0]
+	// PathFromRootNode(2) = [5,3,1,2]
+	// PathBetween(0,2) = 0 1[LCA] 2
+	var s1 []string
+	var s2 []string
+	var bf1 bytes.Buffer
+	var bf2 bytes.Buffer
+	var bl bytes.Buffer
+
+	t.FindPath(&bf1, t.root, a)
+	t.FindPath(&bf2, t.root, b)
+	for i := 0; i < len(bf1.String()); i += 1 {
+		s1 = append(s1, string(bf1.String()[i]))
+	}
+	for i := len(bf2.String()) - 1; i >= 0; i -= 1 {
+		s2 = append(s2, string(bf2.String()[i]))
+	}
+	// Find LCA(a) & LCA(b)
+	t.LCA(&bl, a, b)
+	lca := bl.String()
+	for _, val := range s1 {
+		if val == lca {
+			break
+		}
+		fmt.Fprintf(w, string(val))
+	}
+	fmt.Fprintf(w, lca)
+	var p bool
+	for _, val := range s2 {
+		if p {
+			fmt.Fprintf(w, string(val))
+		}
+		if val == lca {
+			p = true
+		}
+	}
+}
+
 func main() {
 	t := Tree{}
 	/*t.Insert(5)
@@ -315,5 +363,7 @@ func main() {
 	t.LevelOrderTraversalRightToLeft(os.Stdout)
         fmt.Println()
         t.LCA(os.Stdout, 3, 7)
+        fmt.Println()
+	t.PathBetween(os.Stdout, 1, 7)
 }
 

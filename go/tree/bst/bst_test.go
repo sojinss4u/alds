@@ -192,3 +192,23 @@ func TestLCA(t *testing.T) {
 		t.Errorf("Expected %s, Got %s", expect, b.String())
 	}
 }
+
+
+func TestPathBetween(t *testing.T) {
+	tr := Tree{}
+	i := []int{5, 3, 7, 1, 8, 0, 2, 6, 9}
+	//     		 5
+	//  	 3  	 7
+	//	  1      6	     8
+	// 0     2                 9
+	for _, val := range i {
+		tr.Insert(val)
+	}
+	t.Run("TestPathBetweenSuccess", func(t *testing.T) {
+		var b bytes.Buffer
+		expect := "6789"
+		if tr.PathBetween(&b, 6, 9); b.String() != expect {
+			t.Errorf("Expect %s, Got %s", expect, b.String())
+		}
+	})
+}
