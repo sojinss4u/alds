@@ -234,11 +234,11 @@ func TestBst(t *testing.T) {
 	//  	 3  	 7
 	//	  1      2
 	tr = Tree{}
-	tr.root = CreateNode(5)
-	tr.root.left = CreateNode(3)
-	tr.root.right = CreateNode(7)
-	tr.root.left.left = CreateNode(1)
-	tr.root.left.right = CreateNode(2)
+	tr.root = tr.CreateNode(5)
+	tr.root.left = tr.CreateNode(3)
+	tr.root.right = tr.CreateNode(7)
+	tr.root.left.left = tr.CreateNode(1)
+	tr.root.left.right = tr.CreateNode(2)
 	t.Run("TestBSTFailure", func(t *testing.T) {
 		expect := false
 		if got := tr.CheckBST(); got != expect {

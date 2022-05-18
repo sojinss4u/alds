@@ -327,6 +327,8 @@ func (t *Tree) PathBetween(w io.Writer, a, b int) {
 	}
 }
 
+// CheckBSTNode() Method
+
 func (t *Tree) CheckBSTNode(node *Node, rangeStart, rangeEnd int, side string) bool {
 	//     		 5
 	//  	 3  	 7
@@ -345,14 +347,20 @@ func (t *Tree) CheckBSTNode(node *Node, rangeStart, rangeEnd int, side string) b
 	if node == nil {
 		return true
 	}
-	resultLR := t.CheckBSTNode(node.left, rangeStart, node.data, "left") && t.CheckBSTNode(node.right, node.data, rangeEnd, "right")
+
 	if side == "left" {
-		if node.data > rangeStart && node.data < rangeEnd && resultLR {
-			return true
+		if node.data > rangeStart && node.data < rangeEnd {
+			resultLR := t.CheckBSTNode(node.left, rangeStart, node.data, "left") && t.CheckBSTNode(node.right, node.data, rangeEnd, "right")
+			if resultLR {
+				return true
+			}
 		}
 	} else {
-		if node.data >= rangeStart && node.data < rangeEnd && resultLR {
-			return true
+		if node.data >= rangeStart && node.data < rangeEnd {
+			resultLR := t.CheckBSTNode(node.left, rangeStart, node.data, "left") && t.CheckBSTNode(node.right, node.data, rangeEnd, "right")
+			if resultLR {
+				return true
+			}
 		}
 	}
 	return false
