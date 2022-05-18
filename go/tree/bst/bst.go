@@ -327,6 +327,44 @@ func (t *Tree) PathBetween(w io.Writer, a, b int) {
 	}
 }
 
+func (t *Tree) CheckBSTNode(node *Node, rangeStart, rangeEnd int, side string) bool {
+	//     		 5
+	//  	 3  	 7
+	//	  1      6	     8
+	// 0     2                 9
+	// Option 1: Do in order traversal & see if the o/p is sorted. For a BST InOrderTraversl o/p will be always sorted.
+	// Eg: InOrderTraversal OP: 012356789
+	// Option 2: Second option is to identify the range in which each node should fall. This range is created by using the
+	// property of the BST, which says root.left<root.data<root.data.
+	//       a[-IntMax,+IntMax]
+	//    b[-IntMax,a]     c [a,+IntMax]
+	// d[-InMax,b]     e      f[c,+IntMax]
+	// If you move from a node to left, the child node range will be [left-range-value-of-parent-node, parent-node-data] &
+	// If you move from a node to right, the child node range will be [parent-node-data, right-range-value-of-parent-node].
+
+	if node == nil {
+		return true
+	}
+	resultLR := t.CheckBSTNode(node.left, rangeStart, node.data, "left") && t.CheckBSTNode(node.right, node.data, rangeEnd, "right")
+	if side == "left" {
+		if node.data > rangeStart && node.data < rangeEnd && resultLR {
+			return true
+		}
+	} else {
+		if node.data >= rangeStart && node.data < rangeEnd && resultLR {
+			return true
+		}
+	}
+	return false
+}
+
+// Wrapper function to call CheckBST method with relevant values 
+
+func (t *Tree) CheckBST() bool {
+
+	return t.CheckBSTNode(t.root.left, math.MinInt, t.root.data, "left") && t.CheckBSTNode(t.root.right, t.root.data, math.MaxInt, "right")
+}
+
 func main() {
 	t := Tree{}
 	/*t.Insert(5)
@@ -365,5 +403,8 @@ func main() {
         t.LCA(os.Stdout, 3, 7)
         fmt.Println()
 	t.PathBetween(os.Stdout, 1, 7)
+        fmt.Println()
+        r1 := t.CheckBST()
+	fmt.Println(r1)
 }
 

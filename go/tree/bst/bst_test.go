@@ -212,3 +212,38 @@ func TestPathBetween(t *testing.T) {
 		}
 	})
 }
+
+func TestBst(t *testing.T) {
+	tr := Tree{}
+	i := []int{5, 3, 7, 1, 8, 0, 2, 6, 9}
+	//     		 5
+	//  	 3  	 7
+	//	  1      6	     8
+	// 0     2                 9
+	for _, val := range i {
+		tr.Insert(val)
+	}
+	t.Run("TestBSTSuccess", func(t *testing.T) {
+		expect := true
+		if got := tr.CheckBST(); got != expect {
+			t.Errorf("Expected %t, Got %t", expect, got)
+		}
+	})
+	// Generate Invalid BST Using Following Data
+	//     		 5
+	//  	 3  	 7
+	//	  1      2
+	tr = Tree{}
+	tr.root = CreateNode(5)
+	tr.root.left = CreateNode(3)
+	tr.root.right = CreateNode(7)
+	tr.root.left.left = CreateNode(1)
+	tr.root.left.right = CreateNode(2)
+	t.Run("TestBSTFailure", func(t *testing.T) {
+		expect := false
+		if got := tr.CheckBST(); got != expect {
+			t.Errorf("Expect %t, Got %t", expect, got)
+		}
+	})
+}
+
