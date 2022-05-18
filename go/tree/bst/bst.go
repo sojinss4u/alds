@@ -343,6 +343,7 @@ func (t *Tree) CheckBSTNode(node *Node, rangeStart, rangeEnd int, side string) b
 	// d[-InMax,b]     e      f[c,+IntMax]
 	// If you move from a node to left, the child node range will be [left-range-value-of-parent-node, parent-node-data] &
 	// If you move from a node to right, the child node range will be [parent-node-data, right-range-value-of-parent-node].
+	// For the second method, time complexity will be O(n), as we visit each node in the worst case & space complexity will be O(1)
 
 	if node == nil {
 		return true
