@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"testing"
 	"fmt"
+	"math"
 )
 
 func TestCreateNode(t *testing.T) {
@@ -245,5 +246,36 @@ func TestBst(t *testing.T) {
 			t.Errorf("Expect %t, Got %t", expect, got)
 		}
 	})
+}
+
+
+func TestGreatestElementLessThanK(t *testing.T) {
+	tr := Tree{}
+	i := []int{5, 3, 7, 1, 8, 0, 2, 6, 9}
+	//     		 5
+	//  	 3  	 7
+	//	  1      6	     8
+	// 0     2                 9
+	for _, val := range i {
+		tr.Insert(val)
+	}
+	t.Run("TestGreatestElementLessThanKSuccess", func(t *testing.T) {
+		expect := 2
+		if got := tr.GreatestElementLessThanK(3); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+
+	tr = Tree{}
+	//    5
+	// Check an i/p which doesn't exist in tree
+	tr.root = tr.CreateNode(5)
+	t.Run("TestGreatestElementLessThanKSingleNodeTree", func(t *testing.T) {
+		expect := math.MinInt
+		if got := tr.GreatestElementLessThanK(1); expect != got {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+
 }
 

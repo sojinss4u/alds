@@ -374,6 +374,39 @@ func (t *Tree) CheckBST() bool {
 	return t.CheckBSTNode(t.root.left, math.MinInt, t.root.data, "left") && t.CheckBSTNode(t.root.right, t.root.data, math.MaxInt, "right")
 }
 
+// Find the greatest element which is < k in the BST?
+//     		5       	   level = 0
+//  	3  	    7		   level = 1
+//	 1      6	   8       level = 2
+// 0     2             9   level = 3
+// k=3, ans=2
+
+func (t *Tree) GreatestElementLessThanK(k int) int {
+	root := t.root
+	var ans int = math.MinInt
+	for root != nil {
+		// If root.data is >= k, then we will be able to find the ans only in the left part of BST
+		// If root.data < k, then we will be able to find the anser only in the right part of BST
+		// We will also need to have a ans variable & keep update the node values which we find in this ans variable.
+		// If root.data < k, then root.data can be the greatest element < k, but we are not yet sure. So we will just update
+		// ans, variable with this value. Now the only possiblility to find a value which is < k & > root.data is only in the
+		// right part of the node. So we will go in that direction. One thing to note here is that, once we reach at the leaf
+		// node or when we reach null node, we will be done with the search & no more search is required.
+		// Time Complexity: O(h), where 'h' is the heigt of the tree. This is because after each loop we go one level down &
+		// once we reach the bottom level we are done with the searching.
+		// Space Complexity: O(1)
+		// Note: We don't need to check if the recently found element is > current ans, as it will be always > current ans as we
+		// always go to the right side.
+		if root.data == k || root.data > k {
+			root = root.left
+		} else {
+			ans = root.data
+			root = root.right
+		}
+	}
+	return ans
+}
+
 func main() {
 	t := Tree{}
 	/*t.Insert(5)
@@ -415,5 +448,8 @@ func main() {
         fmt.Println()
         r1 := t.CheckBST()
 	fmt.Println(r1)
+        fmt.Println()
+	r2 := t.GreatestElementLessThanK(7)
+	fmt.Println(r2)
 }
 
