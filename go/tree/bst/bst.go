@@ -407,6 +407,27 @@ func (t *Tree) GreatestElementLessThanK(k int) int {
 	return ans
 }
 
+// Find the least element which is > k in the BST?
+//     		5       	   level = 0
+//  	3  	    7		   level = 1
+//	 1      6	   8       level = 2
+// 0     2             9   level = 3
+// k=3, ans=5
+
+func (t *Tree) LeastElementGreaterThanK(k int) int {
+	root := t.root
+	var ans = math.MinInt
+	for root != nil {
+		if root.data == k || root.data < k {
+			root = root.right
+		} else {
+			ans = root.data
+			root = root.left
+		}
+	}
+	return ans
+}
+
 func main() {
 	t := Tree{}
 	/*t.Insert(5)
@@ -451,5 +472,7 @@ func main() {
         fmt.Println()
 	r2 := t.GreatestElementLessThanK(7)
 	fmt.Println(r2)
+	r3 := t.LeastElementGreaterThanK(6)
+	fmt.Println(r3)
 }
 

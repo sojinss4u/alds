@@ -279,3 +279,28 @@ func TestGreatestElementLessThanK(t *testing.T) {
 
 }
 
+func TestLeastElementGreaterThanK(t *testing.T) {
+	tr := Tree{}
+	i := []int{5, 3, 7, 1, 8, 0, 2, 6, 9}
+	//     		 5
+	//  	 3  	 7
+	//	  1      6	     8
+	// 0     2                 9
+	for _, val := range i {
+		tr.Insert(val)
+	}
+	t.Run("TestLeastElementGreaterThanKSuccess", func(t *testing.T) {
+		expect := 7
+		if got := tr.LeastElementGreaterThanK(6); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	tr = Tree{}
+	tr.root = CreateNode(5)
+	t.Run("TestLeastElementGreaterThanKSuccessSingleNodeTree", func(t *testing.T) {
+		expect := math.MinInt
+		if got := tr.LeastElementGreaterThanK(6); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+}
