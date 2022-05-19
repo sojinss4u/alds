@@ -428,6 +428,71 @@ func (t *Tree) LeastElementGreaterThanK(k int) int {
 	return ans
 }
 
+// Find max(node_value) of a given tree
+
+func (t *Tree) Max(node *Node) int {
+	var q []*Node
+	var max int = math.MinInt
+	// Do levelOrderTraversal & Keep Updating max variable
+	if node == nil {
+		return max
+	}
+	q = append(q, node)
+	for len(q) > 0 {
+		root := q[0]
+		q = q[1:]
+		if root.left != nil {
+			q = append(q, root.left)
+		}
+		if root.right != nil {
+			q = append(q, root.right)
+		}
+		if root.data > max {
+			max = root.data
+		}
+	}
+	return max
+}
+
+// Delete  a node from BST
+
+func (t *Tree) Delete(node *Node, k int) *Node {
+	// Do inorder traversal & reach till the node which you want to delete
+	// Condition to check leaf node
+	if node == nil {
+		return nil
+		// Condition to check nodes with no children.
+		// This will also take care of root node getting deleted in a BST
+	}
+	if node.data == k {
+		// Case1: Condition to check nodes with no children.
+		if node.left == nil && node.right == nil {
+			return nil
+			// Case2: Condition to check nodes with only one child
+		} else if node.left == nil || node.right == nil {
+			if node.left == nil {
+				return node.right
+			} else {
+				return node.left
+			}
+			// Case3: Condition to check nodes with both left & right child
+		} else {
+			maxNode := t.Max(node.left)
+			// We are not deleting the root node k, but just replacing it's data with maxData. So the memory
+			// address of the root node remains the same.
+			node.data = maxNode
+			// Now we need to delete the node with maxNode data from the left subtree
+			// This call will return the new root of this subtree & we need to assign this value to node.left
+			node.left = t.Delete(node.left, maxNode)
+			// Here the root node address doesn't change, rather we just replace data. So we can return the old rootnode
+			return node
+		}
+	}
+	node.left = t.Delete(node.left, k)
+	node.right = t.Delete(node.right, k)
+	return node
+}
+
 func main() {
 	t := Tree{}
 	/*t.Insert(5)
@@ -474,5 +539,14 @@ func main() {
 	fmt.Println(r2)
 	r3 := t.LeastElementGreaterThanK(6)
 	fmt.Println(r3)
+        t = Tree{}
+	n = []int{35, 20, 38, 10, 30, 41, 5, 26, 33, 52, -1, 24, 29, 47, 60, 21, 27, 43, 48, 55, 70, 46, 49, 58, 75, 51, 50}
+	for _, val := range n {
+                t.Insert(val)
+        }
+	t.Print("io", os.Stdout)
+        fmt.Println()
+	t.Delete(t.root, 52)
+	t.Print("io", os.Stdout)
 }
 

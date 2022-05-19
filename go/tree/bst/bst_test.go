@@ -296,7 +296,7 @@ func TestLeastElementGreaterThanK(t *testing.T) {
 		}
 	})
 	tr = Tree{}
-	tr.root = CreateNode(5)
+	tr.root = tr.CreateNode(5)
 	t.Run("TestLeastElementGreaterThanKSuccessSingleNodeTree", func(t *testing.T) {
 		expect := math.MinInt
 		if got := tr.LeastElementGreaterThanK(6); got != expect {
@@ -304,3 +304,61 @@ func TestLeastElementGreaterThanK(t *testing.T) {
 		}
 	})
 }
+
+func TestDelete(t *testing.T) {
+	tr := Tree{}
+	//           5
+	//        3     8
+	//      2   4 6   9
+	//              7
+	//
+	n := []int{5, 3, 8, 2, 4, 6, 9, 7}
+	for _, val := range n {
+		tr.Insert(val)
+	}
+	t.Run("TestDeleteNoChildren", func(t *testing.T) {
+		expect := "3456789"
+		var b bytes.Buffer
+		tr.Delete(tr.root, 2)
+		if tr.Print("io", &b); b.String() != expect {
+			t.Errorf("Expect %s, Got %s", expect, b.String())
+		}
+	})
+	tr = Tree{}
+	//           5
+	//        3     8
+	//      2   4 6   9
+	//              7
+	//
+	n = []int{5, 3, 8, 2, 4, 6, 9, 7}
+	for _, val := range n {
+		tr.Insert(val)
+	}
+	t.Run("TestDeleteSingleChild", func(t *testing.T) {
+		expect := "2345789"
+		var b bytes.Buffer
+		tr.Delete(tr.root, 6)
+		if tr.Print("io", &b); b.String() != expect {
+			t.Errorf("Expect %s, Got %s", expect, b.String())
+		}
+	})
+	tr = Tree{}
+	//           5
+	//        3     8
+	//      2   4 6   9
+	//              7
+	//
+	n = []int{5, 3, 8, 2, 4, 6, 9, 7}
+	for _, val := range n {
+		tr.Insert(val)
+	}
+	t.Run("TestDeleteDoubleChild", func(t *testing.T) {
+		expect := "2345679"
+		var b bytes.Buffer
+		tr.Delete(tr.root, 8)
+		if tr.Print("io", &b); b.String() != expect {
+			t.Errorf("Expect %s, Got %s", expect, b.String())
+		}
+	})
+}
+
