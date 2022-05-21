@@ -46,3 +46,20 @@ func TestFindGreatest(t *testing.T) {
 	})
 }
 
+
+func TestFindFrequency(t *testing.T) {
+	ar1 := []int{1, 3, 7, 7, 7, 10}
+	t.Run("TestFindFrequencyExistingElement", func(t *testing.T) {
+		expect := 3
+		if got := FindFrequency(7, ar1); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindFrequencyNonExistingElement", func(t *testing.T) {
+		expect := 0
+		if got := FindFrequency(11, ar1); expect != got {
+			t.Errorf("Expect %d,Got %d", expect, got)
+		}
+	})
+}
+
