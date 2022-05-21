@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"testing"
+	"math"
+)
 
 func TestInorderLinerarSearch(t *testing.T) {
 	t.Run("TestInorderLinerarSearchIntegersSuccess", func(t *testing.T) {
@@ -17,6 +20,28 @@ func TestInorderLinerarSearch(t *testing.T) {
 		expect := 2
 		if expect != i {
 			t.Errorf("Expect %v, Got %v", expect, i)
+		}
+	})
+}
+
+func TestFindGreatest(t *testing.T) {
+	ar1 := []int{1, 3, 7, 10}
+	t.Run("TestFindGreatestExistingElementSuccess", func(t *testing.T) {
+		expect := 10
+		if got := FindGreatest(10, ar1); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindGreatestNonExistingElementSuccess", func(t *testing.T) {
+		expect := 7
+		if got := FindGreatest(9, ar1); got != expect {
+			t.Errorf("Expect %d, Got %d", got, expect)
+		}
+	})
+	t.Run("TestFindGreatestReturnDefaultAnswer", func(t *testing.T) {
+		expect := math.MinInt
+		if got := FindGreatest(0, ar1); expect != got {
+			t.Errorf("Expect %d, Got %d", expect, got)
 		}
 	})
 }

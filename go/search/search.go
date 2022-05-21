@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"math"
 )
 
 var (
@@ -29,6 +30,35 @@ func UnorderedLinerarSearch(k interface{}, ar []interface{}) int {
 	return -1
 }
 
+func FindGreatest(k int, ar []int) int {
+        // Q: Given a sorted array find the greatest element which is <= k ?
+	// We will apply search here as we have a search space [i/p array] & we have a target [k].
+	// We will apply Binary Search here, as the i/p array is sorted & we can discard some part of the
+	// array after reaching the mid portion. ie Once we reach the mid, we will check
+	// if ar[mid] == k, if yes we will just return ar[mid]
+	// if ar[mid] > k, we don't need to check the right part of ar[mid] & we can completely discard right part
+	// if ar[mid] < k, ar[mid] can be an answer, so we will update the answer with this value. So will be possibly
+	// able to find a better answer on the right side of ar[mid], so we will searching for a new value in the right space,
+	// untill we have only one element in the search space ie when low == high. We don't need to check if the newly found
+	// element is > previous max element as array is sorted & if you go right part the element will be obviously greater
+	low := 0
+	high := len(ar) - 1
+	secondHighest := math.MinInt
+	for low <= high {
+		mid := (high + low) / 2
+		if ar[mid] == k {
+			secondHighest = ar[mid]
+			return secondHighest
+		} else if ar[mid] > k {
+			high = mid - 1
+		} else {
+			low = mid + 1
+			secondHighest = ar[mid]
+		}
+	}
+	return secondHighest
+}
+
 func main() {
 	ar := []interface{}{3, 1, 7, 2, 6}
 	i := UnorderedLinerarSearch(6, ar)
@@ -36,5 +66,8 @@ func main() {
 	ar = []interface{}{"a", "c", "b", "g", "h"}
 	i = UnorderedLinerarSearch("h", ar)
 	infoLogger.Printf("%v", i)
+        ar1 := []int{1, 3, 7, 10}
+        i = FindGreatest(11, ar1)
+	infoLogger.Print(i)
 }
 
