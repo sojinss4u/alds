@@ -63,3 +63,26 @@ func TestFindFrequency(t *testing.T) {
 	})
 }
 
+func TestFindPeak(t *testing.T) {
+	t.Run("TestFindPeakEdgeElementRightSuccess", func(t *testing.T) {
+		ar := []int{4, 7, 1, 2}
+		expect := 2
+		if got := FindPeak(ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindPeakEdgeElementsLeftSuccess", func(t *testing.T) {
+		ar := []int{7, 4, 5, 2, 1}
+		expect := 7
+		if got := FindPeak(ar); got != expect {
+			t.Errorf("Exepct %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindPeakMiddlePeak", func(t *testing.T) {
+		ar := []int{3, 4, 9, 5, 1}
+		expect := 9
+		if got := FindPeak(ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+}

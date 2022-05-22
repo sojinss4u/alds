@@ -109,6 +109,44 @@ func FindFrequency(k int, ar []int) int {
 	return endIndex - startIndex + 1
 }
 
+func FindPeak(ar []int) int {
+	// {3, 5, 4, 1}
+	// Handling the corner cases at the beginning itself to avoid out of bound error for array.
+	// This happens when the peak is ar[0] or ar[n-1] ie first or last element
+	n := len(ar)
+	if ar[0] > ar[1] {
+		return ar[0]
+	} else if ar[n-1] > ar[n-2] {
+		return ar[n-1]
+	}
+	// Case 1: ar[mid-1] < ar[mid] > ar[mid+1]
+	// Case 2: ar[mid-1] < ar[mid] < ar[mid+1]
+	// Case 3: ar[mid-1] > ar[mid] < ar[mid+1]
+	// Case 4: ar[mid-1] > ar[mid] > ar[mid+1]
+	low := 0
+	high := len(ar) - 1
+	for low <= high {
+		mid := (low + high) / 2
+		// Case 1:
+		if ar[mid] > ar[mid-1] && ar[mid] > ar[mid+1] {
+			return ar[mid]
+			// Case 2:
+		} else if ar[mid+1] > ar[mid] && ar[mid-1] < ar[mid] {
+			// Go to right side
+			low = mid + 1
+			// Case 3:
+		} else if ar[mid-1] > ar[mid] && ar[mid+1] > ar[mid] {
+			// Both left & right are increasing, so we can go either side. He we chose left side
+			high = mid - 1
+			// Case 4:
+		} else if ar[mid-1] > ar[mid] && ar[mid+1] < ar[mid] {
+			// Go to left side
+			high = mid - 1
+		}
+	}
+	return math.MinInt
+}
+
 func main() {
 	ar := []interface{}{3, 1, 7, 2, 6}
 	i := UnorderedLinerarSearch(6, ar)
@@ -122,5 +160,8 @@ func main() {
 	ar1 = []int{1, 3, 7, 7, 7, 10}
 	r := FindFrequency(7, ar1)
 	infoLogger.Print("Frequency: ", r)
+        ar1 = []int{3, 4, 1, 2}
+	r = FindPeak(ar1)
+	infoLogger.Print(r)
 }
 
