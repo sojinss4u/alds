@@ -274,6 +274,33 @@ func FindElementAfterKRotationWithoutKGiven(ar []int, e int) bool {
 	return r
 }
 
+func FindSqrt(n int) int {
+	// Q: Given 'n', find sqrt(n)? Also if the sqrt(n) is a flotat, we can round it off to the floor integer value.
+	// Note: n is a positive integer [1 - intMax]
+	// Idea: We can run a loop from i = 1 to n, multiplying i * i & checking if it is equal to or less than n.
+	// For instance let's find the sqrt of 37. Let's start from 1 & calculate 1*1 = 1. Now 1<37, so 1 can be an answer. Now we will increment 'i' & calculate 2 * 2 = 4. Now 4 < 37, so it can be an answer. So we will update ans with 4. We will keep doing this till we reach 7, where 7 * 7 = 49, which is greater than 37. Now we will just return the previous answer which we stored ie 6 * 6 = 36 & this will be the final answer. So we can say that to find the sqrt(n), we need to do sqrt(n) iterations & hence the time complexity is equal to O(sqrt(n)). Space complexity will be O(1).
+	// Now assume that we want to further optimize time complexity for this solution. Let's see if we can apply Binary Search to solve this problem which is having less time complexity ie O(log(n)). In order to identify if this is a searching problem, we need to first see if we have a search space. In this case the search space is from 1 - n, so this is a searching problem. Now let's see if we can apply Binary Search. In order to apply Binary Search, we need to have a target which is sqrt(n) in this case & we need to have a condition using which we can discard left or right part once we reach the middle element. In this case once we reach the middle element, we will calculate (mid*mid) & see if it is > n. If it is > n, then we will simply discard the entire right part of the search space & go to left side. ie low=mid-1. Now if mid*mid  < n, then it can be an answer, so we will store mid in answer variable & go to right as we will probably able to find a  better answer in the right side. Now we will also check if mid * mid = n, if it is, then we will simply return mid or we will wait for the BS loop to complete & will return the value of ans.
+	// In this case one thing to note is that we are not given any i/p array. Here the array is defined by us just by setting low & high values ie low=1 & high = n. So we don't actually need an i/p array to be given for applying the BS. If we can define a search space ourself, for those problems as well we can apply BS.
+	low := 1
+	high := n
+	var ans int
+	for low <= high {
+		mid := (low + high) / 2
+		// Case 1: if square(mid) == n, then mid is the squae root of n
+		if (mid * mid) == n {
+			return mid
+			// Here we can discard the entire right search space & go to left side
+		} else if (mid * mid) > n {
+			high = mid - 1
+			// Here mid can be the sqrt(n), but we are not sure. So we update the ans with mid & search for a better answer in the right side
+		} else {
+			ans = mid
+			low = mid + 1
+		}
+	}
+	return ans
+}
+
 func main() {
 	ar := []interface{}{3, 1, 7, 2, 6}
 	i := UnorderedLinerarSearch(6, ar)
@@ -298,4 +325,6 @@ func main() {
 	infoLogger.Print(r1)
         r2 := FindElementAfterKRotationWithoutKGiven(ar1, 6)
 	infoLogger.Print(r2)
+	r3 := FindSqrt(81)
+	infoLogger.Print(r3)
 }

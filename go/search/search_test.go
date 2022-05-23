@@ -151,3 +151,18 @@ func TestFindElementAfterKRotationWithoutKGiven(t *testing.T) {
 		}
 	})
 }
+
+func TestFindSqrt(t *testing.T) {
+	t.Run("TestFindSqrtPerfectSquare", func(t *testing.T) {
+		expect := 11
+		if got := FindSqrt(121); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindSqrtNotPerfectSquare", func(t *testing.T) {
+		expect := 11
+		if got := FindSqrt(125); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+}
