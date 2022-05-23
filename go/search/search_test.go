@@ -166,3 +166,19 @@ func TestFindSqrt(t *testing.T) {
 		}
 	})
 }
+
+func TestFindQubeRoot(t *testing.T) {
+	t.Run("TestFindQubeRootPerfectQube", func(t *testing.T) {
+		expect := 4
+		if got := FindQubeRoot(64); expect != got {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindQubeRootNotPerfectSquare", func(t *testing.T) {
+		expect := 4
+		if got := FindQubeRoot(70); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+}
+

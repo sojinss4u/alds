@@ -301,6 +301,25 @@ func FindSqrt(n int) int {
 	return ans
 }
 
+func FindQubeRoot(n int) int {
+	// We will appy the same logic as sqaure root
+	low := 1
+	high := n
+	var ans int
+	for low <= high {
+		mid := (low + high) / 2
+		if mid*mid*mid == n {
+			return mid
+		} else if mid*mid*mid > n {
+			high = mid - 1
+		} else {
+			ans = mid
+			low = mid + 1
+		}
+	}
+	return ans
+}
+
 func main() {
 	ar := []interface{}{3, 1, 7, 2, 6}
 	i := UnorderedLinerarSearch(6, ar)
@@ -327,4 +346,6 @@ func main() {
 	infoLogger.Print(r2)
 	r3 := FindSqrt(81)
 	infoLogger.Print(r3)
+        r4 := FindQubeRoot(27)
+	infoLogger.Print(r4)
 }
