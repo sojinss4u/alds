@@ -147,6 +147,52 @@ func FindPeak(ar []int) int {
 	return math.MinInt
 }
 
+func FindUnique(ar []int) int {
+	// Q: In given array of elements, each element occurs twice except for one element. Find the unique element.
+	// Note: Duplicate elements are adjacent to each other. 
+
+	// EdgeCase1: Check if array has a single element. If yes, return ar[0] as answer
+
+	n := len(ar)
+
+	if n == 1 {
+		return ar[0]
+	}
+	// EdgeCase2: Check if first or last element is unique element. If yes, retun them to avoid out of index errors in Binary Search
+
+	if ar[0] != ar[1] {
+		return ar[0]
+	}
+
+	if ar[n-1] != ar[n-2] {
+		return ar[n-1]
+	}
+	// If above conditions are not satsfied we can start Binary Search
+	low := 0
+	high := n - 1
+
+	for low <= high {
+		mid := (low + high) / 2
+		// Check if ar[mid] itself is the answer
+		if ar[mid] != ar[mid-1] && ar[mid] != ar[mid+1] {
+			return ar[mid]
+		}
+		// Check if we have landed on second occurrence of repeating element. If yes, change mid to mid-1
+		if ar[mid] == ar[mid-1] {
+			mid = mid - 1
+		}
+		// Now check if we are at the right side or left side by checking if mid is oven or odd
+		if mid%2 == 0 {
+			// We are at left side, so go to right side. Also skip second occurrence of mid by adding 2, instead of 1
+			low = mid + 2
+		} else {
+			// We are at right sie, so go to left side. Since we at first index & we are moving left, we don't reduce 2, but reduce 1
+			high = mid - 1
+		}
+	}
+	return math.MinInt
+}
+
 func main() {
 	ar := []interface{}{3, 1, 7, 2, 6}
 	i := UnorderedLinerarSearch(6, ar)
@@ -162,6 +208,9 @@ func main() {
 	infoLogger.Print("Frequency: ", r)
         ar1 = []int{3, 4, 1, 2}
 	r = FindPeak(ar1)
+	infoLogger.Print(r)
+        ar1 = []int{3, 3, 1, 1, 8, 8, 10, 10, 19, 6, 6, 2, 2, 4, 4}
+	r = FindUnique(ar1)
 	infoLogger.Print(r)
 }
 

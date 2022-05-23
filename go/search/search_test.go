@@ -86,3 +86,35 @@ func TestFindPeak(t *testing.T) {
 		}
 	})
 }
+
+func TestFindUnique(t *testing.T) {
+	t.Run("TestFindUniqueSingleElementInArraySuccess", func(t *testing.T) {
+		ar := []int{2}
+		expect := 2
+		if got := FindUnique(ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindUniqueLeftMostElementUniqueSuccess", func(t *testing.T) {
+		ar := []int{1, 2, 2, 3, 3}
+		expect := 1
+		if got := FindUnique(ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindUniqueRightMostElementUniqueSuccess", func(t *testing.T) {
+		ar := []int{1, 1, 2, 2, 3, 3, 4}
+		expect := 4
+		if got := FindUnique(ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindUniqueResultNotAtEnds", func(t *testing.T) {
+		ar := []int{1, 1, 2, 3, 3}
+		expect := 2
+		if got := FindUnique(ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+}
+
