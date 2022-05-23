@@ -135,3 +135,19 @@ func TestFindElementAfterKRotation(t *testing.T) {
 	})
 }
 
+func TestFindElementAfterKRotationWithoutKGiven(t *testing.T) {
+	t.Run("TestFindElementAfterKRotationWithoutKGivenElementPresent", func(t *testing.T) {
+		ar := []int{4, 5, 1, 2, 3}
+		expect := true
+		if got := FindElementAfterKRotationWithoutKGiven(ar, 1); got != expect {
+			t.Errorf("Expect %t, Got %t", expect, got)
+		}
+	})
+	t.Run("TestFindElementAfterKRotationWithoutKGivenElementNotPresent", func(t *testing.T) {
+		ar := []int{4, 5, 1, 2, 3}
+		expect := false
+		if got := FindElementAfterKRotationWithoutKGiven(ar, 7); got != expect {
+			t.Errorf("Expect %t, Got %t", expect, got)
+		}
+	})
+}

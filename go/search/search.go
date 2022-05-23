@@ -217,7 +217,13 @@ func BS(ar []int, e int) bool {
 func FindElementAfterKRotation(ar []int, k, e int) bool {
 	// Given an array which is formed by rotating a distinct sorted array by 'k' times, Search for a given element in the rotated array?
 	// Note: You are given with values of 'k' & target.
+	// Q: Given an array which is formed by rotating a Distinct[All elements are unique in array] sorted array by 'k' times, Search for a given element in rotated array?
+	//Note: You are given with values of 'k' & target.  
+	
 	// I/P: {4, 5, 6, 1, 2, 3}
+	// The logic here is that if an array is rotated 'k' times, we will be able to find two sorted arrays ie ar1 = ar[0:(k-1)] & ar2=ar[k:n-1] in the resulting array.
+	// Now we can apply BS on these two sorted arrays & will be able to find the given element in O(log(n)) time complexity, which is better than linerar search which is O(n)
+
 	n := len(ar)
 	// First Binary Search
 	// ar = {4, 5, 6}, e = 3
@@ -229,6 +235,43 @@ func FindElementAfterKRotation(ar []int, k, e int) bool {
 		return true
 	}
 	return false
+}
+
+func FindElementAfterKRotationWithoutKGiven(ar []int, e int) bool {
+	// Since 'k' is not given, we need to first findout 'k'. This we can do using BS using a propery of ar given below.
+	// Q: Given an array which is formed by rotating a Distinct[All elements are unique in array] sorted array by 'k' times, Search for a given element in rotated array?
+        // Note: You are given with values of only target & 'k' is not given
+
+	// Eg: [4,5,1,2,3], e = 1
+	// ar1 = [4,5] ar2 = [1,2,3]
+	// In the above example, k=2. We can also see that 'k' is same as the index of the first element in second array. So if we find ar2[0], we will get 'k'.
+	// Also we can see that ar1[0] is always greater than any element in ar2.
+	// So we will apply BS & calculate mid. Once we get mid, we will check if ar[mid] < ar[0]. If yes, we are in the right array ie ar2. However we are not sure if ar[mid] is
+	// the first element of ar2. So we will also check if ar[mid] < ar[mid-1]. If this condition is true, we can conclude that this element is the starting index of ar2 == k.
+	// If current mid is not the starting element of ar2, we will need to go left as we will be able to find a better answer in the left side.  So we will update high=mid-1.
+	// Similarly if ar[mid] < ar[0]. Then we can confirm that we are in the left array ar1. So we need to go right to find k. We do this by setting low=mid+1.
+	n := len(ar)
+	low := 0
+	high := n - 1
+	k := -1
+	for low <= high {
+		mid := (low + high) / 2
+		// Condition where we are in the right array
+		if ar[mid] < ar[0] {
+			if ar[mid] < ar[mid-1] {
+				k = mid
+				break
+			} else {
+				high = mid - 1
+			}
+		} else if ar[mid] > ar[0] {
+			// Condition where wr are in the left array
+			low = mid + 1
+		}
+	}
+	// Now we can apply BS with k & e
+	r := FindElementAfterKRotation(ar, k, e)
+	return r
 }
 
 func main() {
@@ -253,4 +296,6 @@ func main() {
         ar1 = []int{4, 5, 6, 1, 2, 3}
 	r1 := FindElementAfterKRotation(ar1, 3, 7)
 	infoLogger.Print(r1)
+        r2 := FindElementAfterKRotationWithoutKGiven(ar1, 6)
+	infoLogger.Print(r2)
 }
