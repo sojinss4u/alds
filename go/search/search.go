@@ -150,7 +150,10 @@ func FindPeak(ar []int) int {
 func FindUnique(ar []int) int {
 	// Q: In given array of elements, each element occurs twice except for one element. Find the unique element.
 	// Note: Duplicate elements are adjacent to each other. 
-
+	// 
+	// Time Complexity: O(log(n))
+	// Space Complexity: O(1)
+	
 	// EdgeCase1: Check if array has a single element. If yes, return ar[0] as answer
 
 	n := len(ar)
@@ -193,6 +196,41 @@ func FindUnique(ar []int) int {
 	return math.MinInt
 }
 
+// This function does normal binary search & return true|false
+func BS(ar []int, e int) bool {
+	n := len(ar)
+	low := 0
+	high := n - 1
+	for low <= high {
+		mid := (low + high) / 2
+		if ar[mid] == e {
+			return true
+		} else if ar[mid] > e {
+			high = mid - 1
+		} else {
+			low = mid + 1
+		}
+	}
+	return false
+}
+
+func FindElementAfterKRotation(ar []int, k, e int) bool {
+	// Given an array which is formed by rotating a distinct sorted array by 'k' times, Search for a given element in the rotated array?
+	// Note: You are given with values of 'k' & target.
+	// I/P: {4, 5, 6, 1, 2, 3}
+	n := len(ar)
+	// First Binary Search
+	// ar = {4, 5, 6}, e = 3
+	rl := BS(ar[0:k], e)
+	// Second Binary Search
+	// ar = {1,2,3}, e = 3
+	rr := BS(ar[k:n], e)
+	if rl || rr {
+		return true
+	}
+	return false
+}
+
 func main() {
 	ar := []interface{}{3, 1, 7, 2, 6}
 	i := UnorderedLinerarSearch(6, ar)
@@ -212,5 +250,7 @@ func main() {
         ar1 = []int{3, 3, 1, 1, 8, 8, 10, 10, 19, 6, 6, 2, 2, 4, 4}
 	r = FindUnique(ar1)
 	infoLogger.Print(r)
+        ar1 = []int{4, 5, 6, 1, 2, 3}
+	r1 := FindElementAfterKRotation(ar1, 3, 7)
+	infoLogger.Print(r1)
 }
-

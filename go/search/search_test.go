@@ -118,3 +118,20 @@ func TestFindUnique(t *testing.T) {
 	})
 }
 
+func TestFindElementAfterKRotation(t *testing.T) {
+	t.Run("TestFindElementAfterKRotationSuccess", func(t *testing.T) {
+		ar := []int{4, 5, 1, 2, 3}
+		expect := true
+		if got := FindElementAfterKRotation(ar, 2, 2); got != expect {
+			t.Errorf("Expect %t, Got %t", expect, got)
+		}
+	})
+	t.Run("TestFindElementAfterKRotationFailure", func(t *testing.T) {
+		ar := []int{4, 5, 1, 2, 3}
+		expect := false
+		if got := FindElementAfterKRotation(ar, 2, 7); got != expect {
+			t.Errorf("Expect %t, Got %t", expect, got)
+		}
+	})
+}
+
