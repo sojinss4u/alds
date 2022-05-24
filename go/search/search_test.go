@@ -182,3 +182,49 @@ func TestFindQubeRoot(t *testing.T) {
 	})
 }
 
+func TestFindMaxSumOfSubArray(t *testing.T) {
+	t.Run("TestFindMaxSumOfSubArraySmallK", func(t *testing.T) {
+		ar := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+		k := 2
+		expect := 19
+		if got := FindMaxSumOfSubArray(k, ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindMaxSumOfSubArrayLargeK", func(t *testing.T) {
+		ar := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+		k := 9
+		expect := 54
+		if got := FindMaxSumOfSubArray(k, ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+}
+
+func TestFindMaxKOfMaxSubArray(t *testing.T) {
+	t.Run("TestFindMaxKOfMaxSubArraySmallK", func(t *testing.T) {
+		ar := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+		b := 10
+		expect := 1
+		if got := FindMaxKOfMaxSubArray(b, ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindMaxKOfMaxSubArrayLargeK", func(t *testing.T) {
+		ar := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+		b := 55
+		expect := 10
+		if got := FindMaxKOfMaxSubArray(b, ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindMaxKOfMaxSubArrayAverageK", func(t *testing.T) {
+		ar := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+		b := 40
+		expect := 5
+		if got := FindMaxKOfMaxSubArray(b, ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+}
+

@@ -320,6 +320,58 @@ func FindQubeRoot(n int) int {
 	return ans
 }
 
+func FindMaxSumOfSubArray(k int, ar []int) int {
+	// Given an array of positive integers ar & k, return the max sum of sub array of lenght k
+	// A sub array is formed by consecutive elements of a given array
+	// Eg: ar = [1,2,3,4,5] & k=3
+	// Possible Sub Arrays are [1,2,3], [2,3,4], [3,4,5]
+	// Assume that sum of first sub array is sum. Then the sum of remaining sub arrays can be found from this initial sum using following formula
+	// Sum of next array = (current sum) + (last element in next sub array) - (first element of current subarray)
+	// Ref: https://www.geeksforgeeks.org/find-maximum-minimum-sum-subarray-size-k/
+
+	n := len(ar)
+
+	// Find the sum of the first sub array by iterating through each element in it
+	var sum, maxSum int
+	for i := 0; i < k; i++ {
+		sum = sum + ar[i]
+		maxSum = sum
+	}
+
+	// Run a loop from 'k' to 'n' & find the sum of reamining sub arrays by adding the last element of current sub array & removing first element of last sub array
+
+	for i := k; i < n; i++ {
+		sum = sum + ar[i] - ar[i-k] // Remove first element of previous array & add last eleement of current array
+		if sum > maxSum {
+			maxSum = sum
+		}
+	}
+	return maxSum
+}
+
+func FindMaxKOfMaxSubArray(b int, ar []int) int {
+	//  We are given an array of length 7 as shown in the above diagram. Now let's take k=1, initially. Now each individual element in the array forms a sub array of length 1. So maximum sum of these individual arrays = 7.
+	// Also 7 <= 20. This means that k=1, can be an answer till we find a better solution. So we set ans=1. Now let's take k=2. Now maximum sum = 10, which is <= 20.
+	// So k=2, can be an answer & we update ans=2. Now let's make k=3. Now max sum = 16 which is <20. This means that k=3 can be an answer & we update the answer with k=3. Now let's take k=4, now max sum = 20. Also 20 <= 20, so k=4 can be an answer. So we update 'k' with ans=4. Now let's make k=5, now max sum becomes 25, which is > 20 & violate the condition. So we will return k=4, as the answer for the above question. Now we can say that k>4 cannot be our answer as when k=5, max(sum) > b. This essentially means that if you add anything to max(sum), when k=5, it will exceed 20. When k=6, we add one more element to array for addition. So when k>=5, max(sum) will be definitely > 20. So we don't need to check any k after 5.
+	// Time Complexity [O(log(n))]
+	// In this example target is 'k', which can go from 1 - n. So the search space is between 1 to n
+
+	low := 1
+	high := len(ar)
+	ans := 0
+	for low <= high {
+		mid := (low + high) / 2
+		maxSum := FindMaxSumOfSubArray(mid, ar)
+		if maxSum <= b {
+			ans = mid
+			low = mid + 1
+		} else {
+			high = mid - 1
+		}
+	}
+	return ans
+}
+
 func main() {
 	ar := []interface{}{3, 1, 7, 2, 6}
 	i := UnorderedLinerarSearch(6, ar)
@@ -348,4 +400,7 @@ func main() {
 	infoLogger.Print(r3)
         r4 := FindQubeRoot(27)
 	infoLogger.Print(r4)
+        ar1 = []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	r5 := FindMaxKOfMaxSubArray(19, ar1)
+	infoLogger.Print(r5)
 }
