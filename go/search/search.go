@@ -372,6 +372,97 @@ func FindMaxKOfMaxSubArray(b int, ar []int) int {
 	return ans
 }
 
+// Check function to check if we can complete the given list of tasks in t time
+
+func Check(k, t int, ar []int) bool {
+	// ar = [1, 2, 3, 4, 5]
+	// k = 2
+	// t = 5
+	// To check if the all the tasks given in ar can be completed in 't', we need to keep assigning the tasks to each worker starting from index 0, holding the condition total time of all the tasks assigned to a given worker shouldn't exeed time
+	// To do this we run a loop, adding the time of each tasks to sum variable & if sum exceeds t. If sum exceeds 't', we increment w by 1, where w indicate workers. Now within the for loop at any point if we find w > k, ie total workers needed to complete
+	// the tasks exceeds the available workers, we exit the loop and return false. Otherwise we rerturn true
+	// Time Complexity: O(n)
+	// Space Complexity: O(1)
+	w := 1
+	sum := 0
+	n := len(ar)
+	for i := 0; i < n; i++ {
+		sum = ar[i] + sum
+		if sum > t {
+			w++
+			sum = ar[i]
+		}
+		if w > k {
+			return false
+		}
+	}
+	return true
+}
+
+func FindMinTimeForCompletingTasks(k int, ar []int) int {
+	// Q: Given 'n' tasks, 'k' workers & the time taken for each task, find the minimum time in which we can complete all the tasks?.
+	// Notes:
+	// A single worker can only do continuous set of tasks from the task array.
+	// All workers start their assigned tasks at the same time.
+	// Each task can be assigned only to a single worker.
+
+	// For this to become a searching problem, we need to have a search space where we can definitely find the answer
+	// In this case the search space is [max(ar), sum(ar)], ie between max time in the given array to sum of all elements in the given array of tasks
+	// This is because, we need to assign each task to atleast one worker & hence the maximum time in the given list is the lowest time in which we can complete all the tasks
+	// Eg: ar = [1,1,100], k=2. Now let's assume we assign first two tasks to w1 & last task to w2. Even now w2 will take atleast 100 min to complete the task & hence time taken
+	// to complete all the tasks will be max(ar).
+	// Similarly consider the case where ar = [1,1,100] & k=1. Now the worker 1 will need to do all tasks alone & he will take sum of time taken by all tasks to complete all tasks
+
+	// So we can conclude that this is a searching problem. Now to see if we can apply Binary Search, we need to see if we can discard left or right side of the array once we reach the middle
+	// In this case we make use of following propery of the time to discard left or right part of the array
+	// Propery: If we can complete a task in 'n' minutes, we can definitely complete it in n+1, n+2 , n+5 etc times
+	// Eg: If we can read a book in 10 minutes, we can definitely read it in say 12, 15, 20 minutes. If we get some more time, probably we will take some breaks & complete reading it.
+	// Similary if we cannot complete  a task in 'n' minute, we will definitely not able to complete it in < n minutes
+	// Now using this propery we can discard left / right side of the array & apply binary search.
+
+	// We will calculate the mid element in the search space & call check() function to see if we can complete this task in mid time
+	// If true, we will disacrd the entire right part & go to left side for finding a better time. Mid can be an answer in this case & hence we update the ans variable with the mid & set high=mid-1
+	// Now if we get false from check() function, we won't be able to complete all the tasks in 'mid' time & hence we can discard the entire left part & go to right side for finding a better time
+
+	// Anonimous function to calculate MaxValue in the slice
+	maxValue := func(ar []int) int {
+		max := 0
+		for i := 0; i < len(ar); i++ {
+			if ar[i] > max {
+				max = ar[i]
+			}
+		}
+		return max
+	}
+
+	// Anonimous function to return Sum of all elements in the given slice
+	sumValue := func(ar []int) int {
+		sum := 0
+		for i := 0; i < len(ar); i++ {
+			sum = sum + ar[i]
+		}
+		return sum
+	}
+
+	low := maxValue(ar)
+	high := sumValue(ar)
+	ans := math.MinInt
+
+	// Binary Search to find minimum time
+	for low <= high {
+		mid := (low + high) / 2
+		if Check(k, mid, ar) {
+			high = mid - 1
+			ans = mid
+		} else {
+			low = mid + 1
+		}
+	}
+
+	return ans
+
+}
+
 func main() {
 	ar := []interface{}{3, 1, 7, 2, 6}
 	i := UnorderedLinerarSearch(6, ar)
@@ -403,4 +494,7 @@ func main() {
         ar1 = []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	r5 := FindMaxKOfMaxSubArray(19, ar1)
 	infoLogger.Print(r5)
+	ar2 := []int{3, 5, 1, 7, 8, 2, 5, 3, 10, 1, 4, 7, 5, 4, 6}
+	minTime := FindMinTimeForCompletingTasks(4, ar2)
+	infoLogger.Print(minTime)
 }

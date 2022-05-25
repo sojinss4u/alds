@@ -228,3 +228,59 @@ func TestFindMaxKOfMaxSubArray(t *testing.T) {
 	})
 }
 
+func TestFindMinTimeForCompletingTasks(t *testing.T) {
+	t.Run("TestFindMinTimeForCompletingTasksSingleWorkerSuccess", func(t *testing.T) {
+		ar := []int{1, 2, 3, 4, 5}
+		k := 1
+		expect := 15
+		if got := FindMinTimeForCompletingTasks(k, ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindMinTimeForCompletingTasksMaxWorkersSuccess", func(t *testing.T) {
+		ar := []int{1, 2, 3, 4, 5}
+		k := 5
+		expect := 5
+		if got := FindMinTimeForCompletingTasks(k, ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindMinTimeForCompletingTasksAverageWorkersSuccess", func(t *testing.T) {
+		ar := []int{3, 5, 1, 7, 8, 2, 5, 3, 10, 1, 4, 7, 5, 4, 6}
+		k := 4
+		expect := 22
+		if got := FindMinTimeForCompletingTasks(k, ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+}
+
+func TestCheck(t *testing.T) {
+	t.Run("TestCheckMinWorkersSuccess", func(t *testing.T) {
+		ar := []int{1, 2, 3, 4, 5}
+		k := 1
+		t1 := 15
+		expect := true
+		if got := Check(k, t1, ar); got != expect {
+			t.Errorf("Expect %t, Got %t", expect, got)
+		}
+	})
+	t.Run("TestCheckMaxWorkersSuccess", func(t *testing.T) {
+		ar := []int{1, 2, 3, 4, 5}
+		k := 5
+		t1 := 5
+		expect := true
+		if got := Check(k, t1, ar); got != expect {
+			t.Errorf("Expect %t, Got %t", expect, got)
+		}
+	})
+	t.Run("TestCheckAverageWorkersSuccess", func(t *testing.T) {
+		ar := []int{3, 5, 1, 7, 8, 2, 5, 3, 10, 1, 4, 7, 5, 4, 6}
+		k := 4
+		t1 := 22
+		expect := true
+		if got := Check(k, t1, ar); got != expect {
+			t.Errorf("Expect %t, Got %t", expect, got)
+		}
+	})
+}
