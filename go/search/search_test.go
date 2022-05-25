@@ -284,3 +284,28 @@ func TestCheck(t *testing.T) {
 		}
 	})
 }
+
+func TestFindMaxDistanceBetweenCows(t *testing.T) {
+	t.Run("TestFindMaxDistanceBetweenCowsMinCows", func(t *testing.T) {
+		ar := []int{1, 2, 3, 4, 5}
+		expect := 4
+		if got := FindMaxDistanceBetweenCows(5, 2, ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindMaxDistanceBetweenCowsMaxCows", func(t *testing.T) {
+		ar := []int{1, 2, 3, 4, 5}
+		expect := 1
+		if got := FindMaxDistanceBetweenCows(5, 5, ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+	t.Run("TestFindMaxDistanceBetweenCowsAverageCows", func(t *testing.T) {
+		ar := []int{3, 8, 12, 18, 25, 30, 35, 41, 49}
+		expect := 14
+		if got := FindMaxDistanceBetweenCows(9, 4, ar); got != expect {
+			t.Errorf("Expect %d, Got %d", expect, got)
+		}
+	})
+}
+

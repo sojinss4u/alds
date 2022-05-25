@@ -423,6 +423,13 @@ func FindMinTimeForCompletingTasks(k int, ar []int) int {
 	// We will calculate the mid element in the search space & call check() function to see if we can complete this task in mid time
 	// If true, we will disacrd the entire right part & go to left side for finding a better time. Mid can be an answer in this case & hence we update the ans variable with the mid & set high=mid-1
 	// Now if we get false from check() function, we won't be able to complete all the tasks in 'mid' time & hence we can discard the entire left part & go to right side for finding a better time
+	
+	// Time Complexity = Time Complexity Of Check Function * Time Complexity Of Binary Search
+	// Time Complexity Of Check Function = O(n), Space = O(1)
+	// Time Complexity Of BS = log(x), where x = sum(ar) - max(ar)
+	// Space Complexity Of BS = O(1)
+	// ie Total Time Complexity = O(n) * O(log(x)) = O(nlog(x)), where x = sum(ar) - max(ar)
+	// Total Space Complexity = O(1)
 
 	// Anonimous function to calculate MaxValue in the slice
 	maxValue := func(ar []int) int {
@@ -463,6 +470,70 @@ func FindMinTimeForCompletingTasks(k int, ar []int) int {
 
 }
 
+func Check1(n, d int, ar []int) bool {
+	// We need to check if it is possible to allocare n, cows in such a way that we will be able to keep atleast a distance 'd' between each cow
+	// d is the distance which we need to check if possible to allocate
+	// n, number of cows
+	// ar = [1,2,3,4,5]
+	// d = 3
+	l := len(ar)
+	// c, represent number of cows allocated & keep increasing this value every time we allocate a new cow
+	c := 1
+	lastCowPosition := ar[0]
+	for i := 1; i < l; i++ {
+		if ar[i]-lastCowPosition >= d {
+			c++
+			lastCowPosition = ar[i]
+		}
+		if c == n {
+			return true
+		}
+	}
+	return false
+}
+
+func FindMaxDistanceBetweenCows(m, n int, ar []int) int {
+        // Q: You are given 'n' cows & 'm' stalls. All 'm' stalls are on 'x-axis' at different locations. Place all 'n' cows in these stalls in such a way that, minimum distance between any two cows in maximised?
+
+	//Notes: 
+	//1. You can place only one cow in a given stall.
+	//2. All cows needs to placed in one of the stalls.
+	// ar = [1,2,3,4,5]
+	// n = 2
+	// Here we have a search space betwen [min(space b/w adjacent stalls), (ar[n]-ar[0])]& target max distance we can achieve between cows, so this is a searching problem
+	// Now to apply BST, we should be able to discrd either left or right side after calculating the mid
+	// Here we can say that we cannot allocate all cows with a distance 'd', then we can say that any distance > d is also not possible & hence we can discard entire right side of d
+	// Similarly if it is possible to allocate cows with a distance 'd', we can definitely say that it is 100% possible to have a distance < d. So we will be able to find a better answer possibly in the right side as we want to maximize the distances. So weill update the ans = mid & search in the right side
+
+	n1 := len(ar) // 5
+	minDistance := func(ar []int) int {
+		// Minimum distance between stalls
+		ans := math.MaxInt
+		for i := 0; i < n1-1; i++ {
+			d := ar[i+1] - ar[i]
+			if d < ans {
+				ans = d
+			}
+		}
+		return ans
+	}
+	low := minDistance(ar)
+	high := ar[n1-1] - ar[0]
+
+	ans := math.MinInt
+
+	for low <= high {
+		mid := (high + low) / 2
+		if Check1(n, mid, ar) {
+			ans = mid
+			low = mid + 1
+		} else {
+			high = mid - 1
+		}
+	}
+	return ans
+}
+
 func main() {
 	ar := []interface{}{3, 1, 7, 2, 6}
 	i := UnorderedLinerarSearch(6, ar)
@@ -497,4 +568,7 @@ func main() {
 	ar2 := []int{3, 5, 1, 7, 8, 2, 5, 3, 10, 1, 4, 7, 5, 4, 6}
 	minTime := FindMinTimeForCompletingTasks(4, ar2)
 	infoLogger.Print(minTime)
+	ar3 := []int{3, 8, 12, 18, 25, 30, 35, 41, 49}
+	maxDistance := FindMaxDistanceBetweenCows(9, 4, ar3)
+	infoLogger.Print(maxDistance)
 }
