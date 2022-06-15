@@ -38,7 +38,7 @@ func (n *Node) AddEdge(u string) {
 }
 
 // Graph struct
-
+// Adjacency List Implementation
 type Graph struct {
 	vertices map[string]*Node
 }
