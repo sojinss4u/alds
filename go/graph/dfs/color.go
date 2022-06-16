@@ -27,9 +27,6 @@ type Node struct {
 }
 
 func (n *Node) AddEdge(u string, w int) {
-	if n.neighbors == nil {
-		n.neighbors = make(map[string]int)
-	}
 	n.neighbors[u] = w
 }
 
@@ -40,12 +37,11 @@ type Graph struct {
 
 func (g *Graph) AddVertex(v string) {
 	if _, ok := g.vertices[v]; !ok {
-		if g.vertices == nil {
-			g.vertices = make(map[string]*Node)
-		}
 		n := &Node{
-			value: v,
-			color: "black",
+			value:     v,
+			color:     "black",
+			// To avoid "assignment to entry in nil map" exception
+			neighbors: make(map[string]int),
 		}
 		g.vertices[v] = n
 	}
@@ -79,9 +75,6 @@ func (g *Graph) Print(w io.Writer) {
 func (g *Graph) dfs(v *Node, t int) int {
 	v.color = "red"
 	v.discoveryTime = t
-	if g.discoveryTimes == nil {
-		g.discoveryTimes = make(map[int]string)
-	}
 	g.discoveryTimes[t] = v.value
 	t += 1
 	var s []string
@@ -112,7 +105,11 @@ func (g *Graph) PrintDfs(w io.Writer) {
 }
 
 func main() {
-	g := Graph{}
+	g := Graph{
+		// To avoid, "assignment to entry in nil map" exception
+		vertices:       make(map[string]*Node),
+		discoveryTimes: make(map[int]string),
+	}
 	v_list := []string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
 	for _, item := range v_list {
 		g.AddVertex(item)
