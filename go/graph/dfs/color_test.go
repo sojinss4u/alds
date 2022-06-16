@@ -6,7 +6,11 @@ import (
 )
 
 func TestPrintDfs(t *testing.T) {
-	g := Graph{}
+	g := Graph{
+		// To avoid, "assignment to entry in nil map" exception
+		vertices:       make(map[string]*Node),
+		discoveryTimes: make(map[int]string),
+	}
 	v_list := []string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
 	for _, item := range v_list {
 		g.AddVertex(item)
@@ -24,4 +28,3 @@ func TestPrintDfs(t *testing.T) {
 		}
 	})
 }
-
